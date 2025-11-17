@@ -1,4 +1,4 @@
-# cdp-perf-test-suite-template
+# cdp-nosql-benchmark
 
 A JMeter based test runner for the CDP Platform.
 
