@@ -22,4 +22,7 @@ RUN mv /opt/YCSB/ycsb-mongodb /opt/ycsb
 WORKDIR /opt/ycsb
 ENV PATH="/opt/ycsb/bin:${PATH}"
 
-ENTRYPOINT ["bash"]
+COPY --chmod=755 entrypoint.sh /opt/entrypoint.sh
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
+CMD ["bash"]
