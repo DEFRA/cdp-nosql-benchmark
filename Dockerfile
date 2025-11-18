@@ -1,12 +1,19 @@
-FROM defradigital/cdp-perf-test-docker:latest
+FROM amazoncorretto:11
 
-WORKDIR /opt/perftest
+RUN yum install -y \
+    maven \
+    curl \
+    tar \
+    gzip \
+ && yum clean all
 
-COPY scenarios/ ./scenarios/
-COPY entrypoint.sh .
-COPY user.properties .
+ENV YCSB_VERSION=0.17.0
+RUN curl -L https://github.com/brianfrankcooper/YCSB/releases/download/${YCSB_VERSION}/ycsb-${YCSB_VERSION}.tar.gz \
+    | tar -xz -C /opt \
+ && mv /opt/ycsb-${YCSB_VERSION} /opt/ycsb
 
-ENV S3_ENDPOINT=https://s3.eu-west-2.amazonaws.com
-ENV TEST_SCENARIO=test
+WORKDIR /opt/ycsb
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENV PATH="/opt/ycsb/bin:${PATH}"
+
+ENTRYPOINT ["bash"]
